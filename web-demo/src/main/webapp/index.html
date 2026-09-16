@@ -1,0 +1,98 @@
+<!-- Document Type 文档类型-->
+<!-- 告诉浏览器这是一个html5文档 -->
+<!DOCTYPE html>
+<!-- lang代表language，将网页的主要语言设置为中文-->
+<html lang="zh-CN">
+<head>
+	<!-- 告诉浏览器使用utf-8编码 -->
+	<meta charset="UTF-8">
+	<title>webdemo1</title>
+	<style>
+		/*外边距，内边距都设置为0*/
+		*{margin:0; padding:0;}
+		
+		/*去掉列表前面的小圆点*/
+		ul{list-style:none;}
+		#container
+		{
+			width:80%;
+			margin:0 auto;
+		}
+		
+		#header
+		{
+			height:160px;
+			background-color:pink;
+			line-height:160px;
+			padding-left:20px;
+			/*文字水平居中*/
+			text-align:center;
+		}
+		
+		#main
+		{
+			/*默认变成横向排列*/
+			display:flex;
+			/*设置flex容器中每个子元素之间的空隙是8px*/
+			gap:8px;
+			/*容器的高度*/
+			height:420px;
+			/*容器的上下边距，左右边距*/
+			margin:6px 0;
+		}
+		
+		#menu
+		{
+			width:190px;
+			background-color:skyblue;
+			padding:10px;
+		}
+		
+		#content
+		{
+			flex:1;
+			background-color:lightgreen;
+			padding:12px;
+			font-size:24px;
+		}
+		
+		#footer
+		{
+			height:35px;
+			/*将文字的行高设置为35像素*/
+			line-height:35px;
+			text-align:center;
+			background-color:lightyellow;
+			font-size:18px;
+		}
+		
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>some url</h1>
+		</div>
+		
+		<div id="main">
+			<div id="menu">
+				<h2>菜单</h2>
+				<ul>
+					<li><a href="https://www.douyin.com">抖音</a>
+					<li><a href="https://www.baidu.com">百度</a>
+					<li><a href="https://www.eclipse.org">eclipse</a>
+					<li><a href="https://tomcat.apache.org">tomcat</a>
+					<li><a href="https://www.csdn.net/">csdn</a>
+					<li><a href="https://csdiy.wiki/">csdiy</a>
+				</ul>
+			</div>
+			
+			<div id="content">
+				尽请期待
+			</div>
+		</div>
+		
+		<div id="footer">Copyright @</div>
+	</div>
+</body>
+</html>
