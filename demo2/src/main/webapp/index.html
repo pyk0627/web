@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>web2</title>
+		<style>
+			.two
+			{
+				/*设置为弹性布局，便于调整*/
+				display:flex;
+				/*两端对齐，中间平均分配*/
+				justify-content:space-between;
+				/*让子项在垂直方向上居中*/
+				align-items:center;
+				/*子项之间的间距,1rem=16px*/
+				gap:1rem;
+			}
+			
+			footer
+			{
+				/*将footer中的行内内容右对齐*/
+				text-align:right;
+			}
+			
+			article p
+			{
+				text-indent:2em;
+			}
+			
+			article p.two,footer p
+			{
+				text-indent:0;
+			}
+			
+			h1
+			{
+				text-align:center;
+			}
+			
+			a:link
+			{
+				color:black;
+				text-decoration:none;
+			}
+			
+			a:visited
+			{
+				color:gray;
+			}
+			
+			/*鼠标悬停*/
+			a:hover
+			{
+				color:red;
+				text-decoration:underline;
+			}
+			
+			a
+			{
+				/*设置为块级元素*/
+				display:block;
+				text-align:center;
+				font-size:2em;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 页面的主要内容 -->
+		<main>
+			<!--  新闻-->
+			<article>
+				<header>
+					<h1>日本自卫队推定：大型无人侦察机“全球鹰”已坠毁</h1>
+					<!-- <p></p>表示一个段落 -->
+					<p class="two">
+						<span>来源：中国新闻网 </span>
+						<time>2026-09-15 20:35</time>
+					</p>
+				</header>
+				
+				<p>中新网 9月15日电 据日本广播协会(NHK)报道，当地时间
+				15日，日本航空自卫队方面推定，当天失联的“全球鹰”无人侦
+				察机已坠毁。</p>
+		
+				<p>当地时间15日13时左右，日本航空自卫队表示，一架大型
+				无人侦察机“全球鹰”在鸟取县近海海域失去通信联系，下落不
+				明。</p>
+		
+				<p>不久后，日本海上保安厅称，在鸟取县附近海域发现了
+				疑似机体残骸。由此，航空自卫队推定该机已经坠毁。</p>
+		
+				<p>据报道，这架无人机于当地时间15日10时20分左右从三泽
+				基地起飞。日方表示，该机当时并非执行训练任务，但并未
+				公开飞行任务的具体内容。</p>
+		
+				<p>据日媒介绍，“全球鹰”机身全长约15米，翼展约40米，
+				机高约5米。该无人机为美国制造的高空长航时无人侦察机，
+				滞空时间约36小时。</p>
+		
+				<p>报道称，该无人机单机采购费用约170亿日元。日本航空
+				自卫队共拥有3架“全球鹰”无人机，均部署在三泽基地。</p>
+		
+				<!-- 页脚区域 -->
+				<footer>
+					<p>【编辑:管娜】</p>
+					<p>【责任编辑：齐磊】</p>
+				</footer>
+				
+				<a href="https://cn.chinadaily.com.cn/a/202609/15/WS6aa93b8ae4b09a165c78a485.html">
+					出处
+				</a>
+			</article>
+		</main>
+	</body>
+</html>
