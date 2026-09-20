@@ -44,7 +44,115 @@
         }
     </style>
     
-    <script defer>
+    <script>
+        function checktech()
+        {
+            var boxes = document.getElementsByName("tech");
+            var count = 0; 
+            
+            for(var i = 0; i < boxes.length; i++)
+            {
+                if(boxes[i].checked == true)
+                {
+                    count++;
+                }
+            }
+            
+            if(count > 0)
+            {
+                document.getElementById("tip_tech").style.color = "green";
+            }
+            else
+            {
+                document.getElementById("tip_tech").style.color = "red";
+            }
+        }
+
+        function checkuser()
+        {
+            /*document即DOM，在整个网页文档中通过id找到us1，并调取他的值*/
+            var v = document.getElementById("us1").value;
+            if(v.length>=3 && v.length<=5)
+            {
+              document.getElementById("tip_user").style.color="green";
+            }else
+            {
+              document.getElementById("tip_user").style.color="red";
+            }
+        }
+
+        function checkpass1()
+        {
+            /*document即DOM，在整个网页文档中通过id找到us1，并调取他的值*/
+            var v = document.getElementById("pass1").value;
+            if(v.length>=8 && v.length<=12)
+            {
+              document.getElementById("tip_pass1").style.color="green";
+            }else
+            {
+              document.getElementById("tip_pass1").style.color="red";
+            }
+        }
+        function checkpass2()
+        {
+            /*document即DOM，在整个网页文档中通过id找到us1，并调取他的值*/
+            var v = document.getElementById("pass2").value;
+            if(v!="" && v==document.getElementById("pass1").value)
+            {
+              document.getElementById("tip_pass2").style.color="green";
+            }else
+            {
+              document.getElementById("tip_pass2").style.color="red";
+            }
+        }
+        function checkmail()
+        {
+            /*document即DOM，在整个网页文档中通过id找到us1，并调取他的值*/
+            var v = document.getElementById("mail").value;
+            if(v.indexOf("@")!=-1 && v.indexOf(".")!=-1)
+            {
+              document.getElementById("tip_mail").style.color="green";
+            }else
+            {
+              document.getElementById("tip_mail").style.color="red";
+            }
+        }
+        function checkphone()
+        {
+            /*document即DOM，在整个网页文档中通过id找到us1，并调取他的值*/
+            var v = document.getElementById("phone").value;
+            if(v.length==11 && v[0]=='1' && !isNaN(v))
+            {
+              document.getElementById("tip_phone").style.color="green";
+            }else
+            {
+              document.getElementById("tip_phone").style.color="red";
+            }
+        }
+        function checkname()
+        {
+            /*document即DOM，在整个网页文档中通过id找到us1，并调取他的值*/
+            var v = document.getElementById("name").value;
+            if(v.length>=2 && v.length<=5)
+            {
+              document.getElementById("tip_name").style.color="green";
+            }else
+            {
+              document.getElementById("tip_name").style.color="red";
+            }
+        }
+        function checkhome()
+        {
+            /*document即DOM，在整个网页文档中通过id找到us1，并调取他的值*/
+            var v = document.getElementById("home").value;
+            if(v!="")
+            {
+              document.getElementById("tip_home").style.color="green";
+            }else
+            {
+              document.getElementById("tip_home").style.color="red";
+            }
+        }
     </script>
 </head>
 <body>
@@ -53,7 +161,9 @@
 		需要提交给服务器的数据用name
 		需要用javascript/css找到这个元素，用id
 		都需要，都用 -->
-    <form name="f1">
+
+    <!-- action的值是一个url，就是表单数据要提交的目的地-->
+    <form name="f1" action="">
     	<!-- 创建一个表格，表格边框宽度为1像素，表格总宽度为600像素 -->
         <table border="1" width="600">
             <tr>
@@ -63,40 +173,42 @@
             </tr>
             <tr>
                 <td><label>用户名：</label></td>
-                <!-- 用户输入 -->
-                <td><input type="text" name="user" id="us1"></td>
+                <!-- 用户输入 
+                     当失去焦点是调用checkuser函数
+                -->
+                <td><input type="text" name="user" id="us1" onblur="checkuser()"></td>
                 <!-- 用户名标签 -->
-                <td><label id="yhm">用户名由3-5个字符构成</label></td>
+                <td><label id="tip_user">用户名由3-5个字符构成</label></td>
             </tr>
             <tr>
                 <td><label>密码：</label></td>
-                <td><input type="password" name="pass1" id="pass1"></td>
-                <td><label>请输出8到12位密码</label></td>
+                <td><input type="password" name="pass1" id="pass1" onblur="checkpass1()"></td>
+                <td><label id="tip_pass1">请输出8到12位密码</label></td>
             </tr>
             <tr>
                 <td><label>确认密码：</label></td>
-                <td><input type="password" name="pass2"></td>
-                <td><label>密码是否一致</label></td>
+                <td><input type="password" name="pass2" id="pass2" onblur="checkpass2()"></td>
+                <td><label id="tip_pass2">密码是否一致</label></td>
             </tr>
             <tr>
                 <td><label>E-mail：</label></td>
-                <td><input type="text" name="e_mail"></td>
-                <td><label>请输入有效的E-mail</label></td>
+                <td><input type="text" name="mail" id="mail" onblur="checkmail()"></td>
+                <td><label id="tip_mail">请输入有效的E-mail</label></td>
             </tr>
             <tr>
                 <td><label>手机号码：</label></td>
-                <td><input type="text" name="tel"></td>
-                <td><label>请输入手机号码</label></td>
+                <td><input type="text" name="phone" id="phone" onblur="checkphone()"></td>
+                <td><label id="tip_phone">请输入手机号码</label></td>
             </tr>
             <tr>
                 <td><label>真实姓名：</label></td>
-                <td><input type="text" name="realName"></td>
-                <td><label>请输入真实姓名</label></td>
+                <td><input type="text" name="name" id="name" onblur="checkname()"></td>
+                <td><label id="tip_name">请输入真实姓名</label></td>
             </tr>
             <tr>
                 <td><label>省份：</label></td>
                 <td>
-                    <select name="home">
+                    <select name="home" id="home" onblur="checkhome()">
                         <option value="">--请选择--</option>
                         <option value="北京市">北京市</option>
                         <option value="天津市">天津市</option>
@@ -134,20 +246,20 @@
                         <option value="澳门特别行政区">澳门特别行政区</option>
                     </select>
                 </td>
-                <td><label>请选择省份</label></td>
+                <td><label id="tip_home">请选择省份</label></td>
             </tr>
             <tr>
                 <td><label>技术方向：</label></td>
                 <td>
-                    <input type="checkbox" name="tech" value="Java">Java
-                    <input type="checkbox" name="tech" value="JavaScript" checked>JavaScript
-                    <input type="checkbox" name="tech" value="PHP">PHP 
-                    <input type="checkbox" name="tech" value=".NET">.NET
-                    <input type="checkbox" name="tech" value="IOS">IOS
-                    <input type="checkbox" name="tech" value="Android">Android
-                    <input type="checkbox" name="tech" value="wangye">网页
+                    <input type="checkbox" name="tech" value="Java" onclick="checktech()">Java
+                    <input type="checkbox" name="tech" value="JavaScript" onclick="checktech()">JavaScript
+                    <input type="checkbox" name="tech" value="PHP" onclick="checktech()">PHP 
+                    <input type="checkbox" name="tech" value=".NET" onclick="checktech()">.NET
+                    <input type="checkbox" name="tech" value="IOS" onclick="checktech()">IOS
+                    <input type="checkbox" name="tech" value="Android" onclick="checktech()">Android
+                    <input type="checkbox" name="tech" value="wangye" onclick="checktech()">网页
                 </td>
-                <td><label>请选择技术方向</label></td>
+                <td><label id="tip_tech">请选择技术方向</label></td>
             </tr>
             <tr>
                 <td><label>岗位：</label></td>
@@ -161,7 +273,9 @@
             <tr>
                <!-- 真正装着按钮的td，不是tr-->
                <td colspan="3" class="btn-row">
-                    <button onclick="show()">注册</button>
+                    <!-- 这个按钮的类型是一个提交按钮，点击之后，表单数据将会被提交-->
+                    <button type="submit">注册</button>
+                    <!-- 将表单中的数据重置-->
                     <button type="reset">重置</button>
                 </td>
             </tr>
