@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('后台概览')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{admin/fragments :: adminNav('dashboard')}"></div>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<main class="container py-4 py-lg-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <span class="section-kicker">数据维护中心</span>
+            <h1 class="h2 fw-bold mb-1">后台概览</h1>
+            <p class="text-muted mb-0">管理植物档案、含油率记录和系统用户。</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-success" th:href="@{/admin/crops/new}">＋ 新增作物</a>
+            <a class="btn btn-outline-success" th:href="@{/admin/oils/new}">＋ 新增含油率</a>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="stat-card">
+                <span class="stat-label">作物档案</span>
+                <strong th:text="${cropCount}">33</strong>
+                <span class="stat-unit">种</span>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card">
+                <span class="stat-label">含油率记录</span>
+                <strong th:text="${oilCount}">80</strong>
+                <span class="stat-unit">条</span>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card">
+                <span class="stat-label">注册用户</span>
+                <strong th:text="${userCount}">2</strong>
+                <span class="stat-unit">人</span>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card">
+                <span class="stat-label">收藏总数</span>
+                <strong th:text="${favoriteCount}">0</strong>
+                <span class="stat-unit">次</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <section class="content-card h-100">
+                <h2 class="h6 fw-bold mb-3">科属分布</h2>
+                <div class="family-stat" th:each="fc : ${familyCounts}">
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span th:text="${fc.name}">松科</span>
+                        <strong th:text="${fc.count} + ' 种'">29 种</strong>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-success" role="progressbar"
+                             th:style="'width:' + ${cropCount > 0 ? (fc.count * 100 / cropCount) : 0} + '%'"></div>
+                    </div>
+                </div>
+                <div class="empty-inline mt-3" th:if="${familyCounts.isEmpty()}">暂无科属数据</div>
+            </section>
+        </div>
+
+        <div class="col-lg-8">
+            <section class="content-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h6 fw-bold mb-0">最近新增作物</h2>
+                    <a class="small text-decoration-none" th:href="@{/admin/crops}">查看全部 →</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>中文名</th>
+                            <th>科属</th>
+                            <th>含油率</th>
+                            <th class="text-end">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="crop : ${recentCrops}">
+                            <td>
+                                <a class="text-success text-decoration-none fw-semibold"
+                                   th:href="@{/crop/{id}(id=${crop.id})}" th:text="${crop.chineseName}">苏铁</a>
+                            </td>
+                            <td class="text-muted small" th:text="${crop.familyGenus}">苏铁科 · 苏铁属</td>
+                            <td><span class="oil-pill" th:text="${crop.oilSummary}">10%</span></td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-success"
+                                   th:href="@{/admin/crops/{id}/edit(id=${crop.id})}">编辑</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <section class="content-card mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h6 fw-bold mb-0">最近录入的含油率数据</h2>
+            <a class="small text-decoration-none" th:href="@{/admin/oils}">查看全部 →</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    <th>作物</th>
+                    <th>测试部位</th>
+                    <th>产地</th>
+                    <th class="text-end">含油率(%)</th>
+                    <th class="text-end">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${recentOils}">
+                    <td th:text="${r.cropName}">苏铁</td>
+                    <td th:text="${r.testPart ?: '—'}">种仁</td>
+                    <td th:text="${r.origin ?: '—'}">广西桂林</td>
+                    <td class="text-end fw-semibold text-success" th:text="${r.oilContent ?: '—'}">10.65</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-secondary"
+                           th:href="@{/admin/oils/{id}/edit(id=${r.id})}">编辑</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    session:
+      timeout: 60m
+      tracking-modes: cookie
+      cookie:
+        http-only: true
+        same-site: lax
+  error:
+    include-message: always
+    include-binding-errors: never
+
+spring:
+  application:
+    name: crop-knowledge
+  datasource:
+    # 默认使用 MySQL 8；本地没有 MySQL 时，可以改成 jdbc:mariadb://...
+    url: ${DB_URL:jdbc:mysql://localhost:3306/crop_knowledge?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      # 演示数据由 DataInitializer 在 crop 表为空时导入，避免每次启动重复插入
+      data-locations: optional:classpath:db/none.sql
+      encoding: UTF-8
+      continue-on-error: false
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+  web:
+    resources:
+      cache:
+        period: 0
+
+logging:
+  level:
+    root: INFO
+    com.keshe.crop: INFO

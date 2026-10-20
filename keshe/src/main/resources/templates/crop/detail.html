@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(${crop.chineseName})}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<main class="container py-4 py-lg-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a th:href="@{/}">首页</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/search}">知识查询</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/search(family=${crop.family})}" th:text="${crop.family}">松科</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${crop.chineseName}">苏铁</li>
+        </ol>
+    </nav>
+
+    <section class="detail-hero">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-5">
+                <div class="detail-image-wrap">
+                    <img class="detail-image" th:src="${crop.imageUrl}" th:alt="${crop.chineseName}">
+                    <span class="detail-oil-badge">
+                        <span class="small d-block">含油率</span>
+                        <strong th:text="${crop.oilSummary}">10%</strong>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="family-pill" th:text="${crop.family}">苏铁科</span>
+                    <span class="genus-pill" th:text="${crop.genus}">苏铁属</span>
+                    <span class="badge text-bg-light border" th:if="${crop.alias != null and !crop.alias.isBlank()}"
+                          th:text="'别名：' + ${crop.alias}">别名：铁树</span>
+                </div>
+                <h1 class="display-5 fw-bold mb-2" th:text="${crop.chineseName}">苏铁</h1>
+                <p class="fs-5 text-muted mb-1" th:text="${crop.englishName}">Sago Palm</p>
+                <p class="fst-italic text-muted" th:text="${crop.latinName}">Cycas revoluta Thunb.</p>
+
+                <div class="detail-meta row g-3 mt-3">
+                    <div class="col-sm-4">
+                        <div class="meta-box">
+                            <span>含油率记录</span>
+                            <strong th:text="${crop.oilCount != null ? crop.oilCount : 0}">4</strong>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="meta-box">
+                            <span>数据范围</span>
+                            <strong th:text="${crop.oilSummary}">6.15% ~ 25.32%</strong>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="meta-box">
+                            <span>最近更新</span>
+                            <strong th:text="${crop.updatedDate != null and !crop.updatedDate.isBlank() ? crop.updatedDate : '—'}">2026-10-20</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <form th:if="${currentUser != null}" th:action="@{/favorites/{id}(id=${crop.id})}" method="post">
+                        <button type="submit" class="btn"
+                                th:classappend="${favorite} ? 'btn-warning' : 'btn-success'">
+                            <span th:text="${favorite} ? '★ 已收藏' : '☆ 收藏植物'">☆ 收藏植物</span>
+                        </button>
+                    </form>
+                    <a th:if="${currentUser == null}" class="btn btn-success"
+                       th:href="@{/login(redirect=${'/crop/' + crop.id})}">登录后收藏</a>
+                    <a class="btn btn-outline-success" th:href="@{/search(family=${crop.family})}">同科植物</a>
+                    <a class="btn btn-outline-secondary" th:if="${currentUser != null and currentUser.admin}"
+                       th:href="@{/admin/crops/{id}/edit(id=${crop.id})}">编辑档案</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row g-4 mt-2">
+        <div class="col-lg-8">
+            <section class="content-card">
+                <h2 class="content-title"><span class="title-mark"></span>形态特征</h2>
+                <p class="long-text" th:text="${crop.features != null ? crop.features : '暂无特征描述'}">特征</p>
+            </section>
+
+            <section class="content-card">
+                <h2 class="content-title"><span class="title-mark"></span>分布与生境</h2>
+                <p class="long-text" th:text="${crop.distribution != null ? crop.distribution : '暂无分布信息'}">分布</p>
+            </section>
+
+            <section class="content-card">
+                <h2 class="content-title"><span class="title-mark"></span>栽培要点</h2>
+                <p class="long-text" th:text="${crop.cultivation != null ? crop.cultivation : '暂无栽培信息'}">栽培</p>
+            </section>
+
+            <section class="content-card">
+                <h2 class="content-title"><span class="title-mark"></span>主要用途</h2>
+                <p class="long-text" th:text="${crop.uses != null ? crop.uses : '暂无用途信息'}">用途</p>
+            </section>
+
+            <section class="content-card" id="oil-data">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                    <h2 class="content-title mb-0"><span class="title-mark"></span>含油率及化学组分数据</h2>
+                    <span class="badge text-bg-light border" th:text="'共 ' + ${oilRecords.size()} + ' 条记录'">共 4 条记录</span>
+                </div>
+
+                <div class="table-responsive" th:if="${!oilRecords.isEmpty()}">
+                    <table class="table table-sm table-bordered oil-table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>采集单位</th>
+                            <th>测试单位</th>
+                            <th>测试部位</th>
+                            <th>产地</th>
+                            <th class="text-end">含油率(%)</th>
+                            <th class="text-end">碘值</th>
+                            <th class="text-end">酸值</th>
+                            <th class="text-end">皂化值</th>
+                            <th class="text-end">C12:0</th>
+                            <th class="text-end">C14:0</th>
+                            <th class="text-end">C16:0</th>
+                            <th class="text-end">C16:1</th>
+                            <th class="text-end">C18:0</th>
+                            <th class="text-end">C18:1</th>
+                            <th class="text-end">C18:2</th>
+                            <th class="text-end">C18:3</th>
+                            <th class="text-end">C20:0</th>
+                            <th class="text-end">C20:1</th>
+                            <th>备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="r : ${oilRecords}">
+                            <td th:text="${r.collectionUnit ?: '—'}">GXIB</td>
+                            <td th:text="${r.testUnit ?: '—'}">SCBG</td>
+                            <td th:text="${r.testPart ?: '—'}">种仁</td>
+                            <td th:text="${r.origin ?: '—'}">广西桂林</td>
+                            <td class="text-end fw-semibold text-success" th:text="${r.oilContent != null ? r.oilContent : '—'}">10.65</td>
+                            <td class="text-end" th:text="${r.iodineValue != null ? r.iodineValue : '—'}">71.29</td>
+                            <td class="text-end" th:text="${r.acidValue != null ? r.acidValue : '—'}">1.25</td>
+                            <td class="text-end" th:text="${r.saponificationValue != null ? r.saponificationValue : '—'}">234.13</td>
+                            <td class="text-end" th:text="${r.c12 != null ? r.c12 : '—'}">0.26</td>
+                            <td class="text-end" th:text="${r.c14 != null ? r.c14 : '—'}">5.38</td>
+                            <td class="text-end" th:text="${r.c16 != null ? r.c16 : '—'}">0.12</td>
+                            <td class="text-end" th:text="${r.c16_1 != null ? r.c16_1 : '—'}">2.45</td>
+                            <td class="text-end" th:text="${r.c18 != null ? r.c18 : '—'}">30.36</td>
+                            <td class="text-end" th:text="${r.c18_1 != null ? r.c18_1 : '—'}">50.55</td>
+                            <td class="text-end" th:text="${r.c18_2 != null ? r.c18_2 : '—'}">4.03</td>
+                            <td class="text-end" th:text="${r.c18_3 != null ? r.c18_3 : '—'}">2.31</td>
+                            <td class="text-end" th:text="${r.c20 != null ? r.c20 : '—'}">0.22</td>
+                            <td class="text-end" th:text="${r.c20_1 != null ? r.c20_1 : '—'}">—</td>
+                            <td th:text="${r.remark ?: '—'}">—</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-inline" th:if="${oilRecords.isEmpty()}">
+                    暂未录入该植物的含油率数据。
+                </div>
+
+                <p class="small text-muted mt-3 mb-0">
+                    注：表中“—”表示原始资料未给出该项数值；“微量”等特殊说明会记录在备注列。
+                    脂肪酸组分为相对百分比，数据仅用于课程学习与比较。
+                </p>
+            </section>
+        </div>
+
+        <aside class="col-lg-4">
+            <section class="side-card">
+                <h2 class="h6 fw-bold mb-3">网络扩展知识</h2>
+                <div class="d-grid gap-2">
+                    <a th:each="link : ${externalLinks}" class="external-link" th:href="${link.url}"
+                       target="_blank" rel="noopener noreferrer">
+                        <span>
+                            <strong th:text="${link.title}">百度百科</strong>
+                            <small class="d-block text-muted" th:text="${link.source}">中文百科</small>
+                        </span>
+                        <span class="external-arrow">↗</span>
+                    </a>
+                </div>
+                <p class="small text-muted mt-3 mb-0">外部链接会打开新窗口，内容由对应网站提供。</p>
+            </section>
+
+            <section class="side-card" th:if="${!relatedCrops.isEmpty()}">
+                <h2 class="h6 fw-bold mb-3">同科植物</h2>
+                <div class="related-list">
+                    <a th:each="rc : ${relatedCrops}" class="related-item"
+                       th:href="@{/crop/{id}(id=${rc.id})}">
+                        <img th:src="${rc.imageUrl}" th:alt="${rc.chineseName}">
+                        <span>
+                            <strong th:text="${rc.chineseName}">云南黄果冷杉</strong>
+                            <small class="d-block text-muted" th:text="${rc.latinName}">Abies</small>
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="side-card side-card-tip">
+                <h2 class="h6 fw-bold mb-2">使用提示</h2>
+                <p class="small mb-0">
+                    想比较多个植物的含油率？回到查询页，勾选“含油率”字段，并按“含油率从高到低”排序。
+                </p>
+                <a class="btn btn-sm btn-outline-success mt-3" th:href="@{/search(sort='oilDesc',onlyWithOil='true')}">
+                    去比较含油率
+                </a>
+            </section>
+        </aside>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>

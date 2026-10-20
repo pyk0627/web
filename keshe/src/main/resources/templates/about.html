@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('关于项目')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<header class="page-banner">
+    <div class="container">
+        <span class="section-kicker">课程设计说明</span>
+        <h1 class="display-6 fw-bold mb-2">关于这个项目</h1>
+        <p class="text-muted mb-0">一个面向非粮生物柴油植物的知识查找与匹配网站。</p>
+    </div>
+</header>
+
+<main class="container py-4 py-lg-5">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <section class="content-card">
+                <h2 class="content-title"><span class="title-mark"></span>项目背景</h2>
+                <p class="long-text">
+                    本项目依据《中国非粮生物柴油植物》课程设计资料，将苏铁科、银杏科、松科、杉科等植物的
+                    中文名、英文名、拉丁学名、别名、科、属、形态特征、分布、栽培、用途、图片以及含油率和
+                    脂肪酸化学组分整理为结构化数据，提供组合查询、结果字段选择、详情查看、收藏和后台维护功能。
+                </p>
+            </section>
+
+            <section class="content-card">
+                <h2 class="content-title"><span class="title-mark"></span>主要功能</h2>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h3 class="h6">组合查询</h3>
+                            <p class="small text-muted mb-0">关键词、科、属、含油率范围、是否有含油数据、排序方式自由组合。</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h3 class="h6">结果字段选择</h3>
+                            <p class="small text-muted mb-0">中文名、英文名、拉丁学名、别名、科属、特征、分布、栽培、用途、含油率任选。</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h3 class="h6">用户与角色</h3>
+                            <p class="small text-muted mb-0">游客查询；注册用户收藏；管理员维护植物、含油率记录和用户。</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h3 class="h6">网络扩展知识</h3>
+                            <p class="small text-muted mb-0">详情页提供百度百科、GBIF、POWO、iPlant 等外部检索入口。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-card">
+                <h2 class="content-title"><span class="title-mark"></span>技术实现</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle mb-0">
+                        <tbody>
+                        <tr><th class="w-25">后端框架</th><td>Spring Boot 3.5、Spring MVC</td></tr>
+                        <tr><th>页面模板</th><td>Thymeleaf（服务端渲染，前后端不分离）</td></tr>
+                        <tr><th>数据访问</th><td>JdbcTemplate + 原生 SQL，对应 JDBC 技术点</td></tr>
+                        <tr><th>数据库</th><td>MySQL 8 / MariaDB，包含用户、作物、含油率、收藏等表</td></tr>
+                        <tr><th>登录与权限</th><td>HttpSession + 自定义 Filter + BCrypt 密码哈希</td></tr>
+                        <tr><th>前端</th><td>HTML5、CSS3、JavaScript、Bootstrap 5</td></tr>
+                        <tr><th>部署</th><td>Maven 打包为可执行 jar，内置 Tomcat，`java -jar` 启动</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <aside class="col-lg-4">
+            <section class="side-card">
+                <h2 class="h6 fw-bold mb-3">数据来源</h2>
+                <p class="small text-muted mb-2">
+                    《中国非粮生物柴油植物》课程设计资料（扫描版），整理范围为该书第 11–29 页。
+                </p>
+                <p class="small text-muted mb-0">
+                    部分扫描页存在缺字、空白或“微量”等原始标注，系统按可识别内容录入，并在备注列保留说明。
+                </p>
+            </section>
+
+            <section class="side-card">
+                <h2 class="h6 fw-bold mb-3">评分点对应</h2>
+                <ul class="small text-muted ps-3 mb-0">
+                    <li class="mb-2">前端页面：Bootstrap 5 + 自定义 CSS + 响应式布局。</li>
+                    <li class="mb-2">表单验证：HTML5、JavaScript 与 Jakarta Validation 服务端校验。</li>
+                    <li class="mb-2">Java Web 业务：Spring MVC、JavaBean、Filter、JdbcTemplate。</li>
+                    <li class="mb-2">特定功能：组合查询、字段选择、分页、详情、收藏、后台 CRUD。</li>
+                    <li>部署与自学：可执行 jar、MySQL、Thymeleaf、Spring Boot。</li>
+                </ul>
+            </section>
+
+            <section class="side-card side-card-tip">
+                <h2 class="h6 fw-bold mb-2">演示账号</h2>
+                <p class="small mb-1">管理员：<code>admin / admin123</code></p>
+                <p class="small mb-0">普通用户：<code>user / user123</code></p>
+            </section>
+        </aside>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>

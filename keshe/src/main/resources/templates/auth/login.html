@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('登录')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<main class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <div class="auth-icon">🌱</div>
+                        <h1 class="h3 fw-bold mb-2">欢迎回来</h1>
+                        <p class="text-muted mb-0">登录后可以收藏植物，管理员可以进入后台维护数据</p>
+                    </div>
+
+                    <form th:action="@{/login}" th:object="${loginForm}" method="post" class="needs-validation" novalidate>
+                        <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}">
+                            <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">登录失败</div>
+                        </div>
+                        <input type="hidden" th:field="*{redirect}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">用户名</label>
+                            <input type="text" class="form-control form-control-lg" id="username"
+                                   th:field="*{username}" placeholder="请输入用户名" autocomplete="username"
+                                   required minlength="4" maxlength="20">
+                            <div class="invalid-feedback">请输入用户名</div>
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('username')}"
+                                 th:errors="*{username}"></div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">密码</label>
+                            <input type="password" class="form-control form-control-lg" id="password"
+                                   th:field="*{password}" placeholder="请输入密码" autocomplete="current-password"
+                                   required minlength="6">
+                            <div class="invalid-feedback">请输入密码</div>
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('password')}"
+                                 th:errors="*{password}"></div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg w-100">登录</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <span class="text-muted small">还没有账号？</span>
+                        <a th:href="@{/register}" class="small fw-semibold">立即注册</a>
+                    </div>
+
+                    <hr class="my-4">
+                    <div class="demo-box">
+                        <div class="fw-semibold small mb-2">课程演示账号</div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary demo-account"
+                                    data-username="admin" data-password="admin123">管理员 admin / admin123</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary demo-account"
+                                    data-username="user" data-password="user123">普通用户 user / user123</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>

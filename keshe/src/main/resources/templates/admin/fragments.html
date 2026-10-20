@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="adminNav(active)" class="admin-subnav">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center gap-2 py-2">
+            <span class="admin-label">后台管理</span>
+            <a class="admin-tab" th:classappend="${active == 'dashboard'} ? ' active'" th:href="@{/admin}">概览</a>
+            <a class="admin-tab" th:classappend="${active == 'crops'} ? ' active'" th:href="@{/admin/crops}">作物维护</a>
+            <a class="admin-tab" th:classappend="${active == 'oils'} ? ' active'" th:href="@{/admin/oils}">含油率数据</a>
+            <a class="admin-tab" th:classappend="${active == 'users'} ? ' active'" th:href="@{/admin/users}">用户管理</a>
+            <a class="admin-tab ms-auto" th:href="@{/}">返回前台</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(${mode == 'create' ? '新增含油率记录' : '编辑含油率记录'})}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{admin/fragments :: adminNav('oils')}"></div>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<main class="container py-4 py-lg-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a th:href="@{/admin}">后台</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/oils}">含油率数据</a></li>
+            <li class="breadcrumb-item active" th:text="${mode == 'create' ? '新增记录' : '编辑记录'}">新增记录</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <span class="section-kicker">化学组分</span>
+            <h1 class="h2 fw-bold mb-1" th:text="${mode == 'create' ? '新增含油率记录' : '编辑含油率记录'}">新增含油率记录</h1>
+            <p class="text-muted mb-0">数值未知时可以留空，系统会显示为“—”。</p>
+        </div>
+        <a class="btn btn-outline-secondary" th:href="@{/admin/oils}">返回列表</a>
+    </div>
+
+    <div class="content-card">
+        <form th:action="@{${mode == 'create' ? '/admin/oils' : '/admin/oils/' + oilRecordForm.id}}"
+              th:object="${oilRecordForm}" method="post" class="needs-validation" novalidate>
+            <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}">
+                <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">保存失败</div>
+            </div>
+
+            <h2 class="h6 fw-bold border-bottom pb-2 mb-3">样品信息</h2>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="cropId" class="form-label">作物 <span class="text-danger">*</span></label>
+                    <select class="form-select" id="cropId" th:field="*{cropId}" required>
+                        <option value="">请选择作物</option>
+                        <option th:each="crop : ${cropOptions}" th:value="${crop.id}"
+                                th:text="${crop.chineseName}"></option>
+                    </select>
+                    <div class="invalid-feedback">请选择作物</div>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('cropId')}"
+                         th:errors="*{cropId}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="collectionUnit" class="form-label">采集单位</label>
+                    <input type="text" class="form-control" id="collectionUnit" th:field="*{collectionUnit}"
+                           maxlength="100" placeholder="例如：GXIB">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('collectionUnit')}"
+                         th:errors="*{collectionUnit}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="testUnit" class="form-label">测试单位</label>
+                    <input type="text" class="form-control" id="testUnit" th:field="*{testUnit}"
+                           maxlength="100" placeholder="例如：SCBG">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('testUnit')}"
+                         th:errors="*{testUnit}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="testPart" class="form-label">测试部位</label>
+                    <input type="text" class="form-control" id="testPart" th:field="*{testPart}"
+                           maxlength="100" placeholder="例如：种仁">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('testPart')}"
+                         th:errors="*{testPart}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="origin" class="form-label">产地</label>
+                    <input type="text" class="form-control" id="origin" th:field="*{origin}"
+                           maxlength="150" placeholder="例如：广西桂林">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('origin')}"
+                         th:errors="*{origin}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="oilContent" class="form-label">含油率(%)</label>
+                    <input type="number" class="form-control" id="oilContent" th:field="*{oilContent}"
+                           min="0" max="100" step="0.001" placeholder="0 ~ 100">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('oilContent')}"
+                         th:errors="*{oilContent}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="iodineValue" class="form-label">碘值</label>
+                    <input type="number" class="form-control" id="iodineValue" th:field="*{iodineValue}"
+                           min="0" step="0.001">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('iodineValue')}"
+                         th:errors="*{iodineValue}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="acidValue" class="form-label">酸值</label>
+                    <input type="number" class="form-control" id="acidValue" th:field="*{acidValue}"
+                           min="0" step="0.001">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('acidValue')}"
+                         th:errors="*{acidValue}"></div>
+                </div>
+                <div class="col-md-3">
+                    <label for="saponificationValue" class="form-label">皂化值</label>
+                    <input type="number" class="form-control" id="saponificationValue" th:field="*{saponificationValue}"
+                           min="0" step="0.001">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('saponificationValue')}"
+                         th:errors="*{saponificationValue}"></div>
+                </div>
+            </div>
+
+            <h2 class="h6 fw-bold border-bottom pb-2 mb-3 mt-4">脂肪酸组分（相对百分比）</h2>
+            <div class="row g-3">
+                <div class="col-6 col-md-2">
+                    <label for="c12" class="form-label">C12:0</label>
+                    <input type="number" class="form-control" id="c12" th:field="*{c12}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c12')}" th:errors="*{c12}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c14" class="form-label">C14:0</label>
+                    <input type="number" class="form-control" id="c14" th:field="*{c14}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c14')}" th:errors="*{c14}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c16" class="form-label">C16:0</label>
+                    <input type="number" class="form-control" id="c16" th:field="*{c16}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c16')}" th:errors="*{c16}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c16_1" class="form-label">C16:1</label>
+                    <input type="number" class="form-control" id="c16_1" th:field="*{c16_1}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c16_1')}" th:errors="*{c16_1}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c18" class="form-label">C18:0</label>
+                    <input type="number" class="form-control" id="c18" th:field="*{c18}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c18')}" th:errors="*{c18}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c18_1" class="form-label">C18:1</label>
+                    <input type="number" class="form-control" id="c18_1" th:field="*{c18_1}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c18_1')}" th:errors="*{c18_1}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c18_2" class="form-label">C18:2</label>
+                    <input type="number" class="form-control" id="c18_2" th:field="*{c18_2}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c18_2')}" th:errors="*{c18_2}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c18_3" class="form-label">C18:3</label>
+                    <input type="number" class="form-control" id="c18_3" th:field="*{c18_3}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c18_3')}" th:errors="*{c18_3}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c20" class="form-label">C20:0</label>
+                    <input type="number" class="form-control" id="c20" th:field="*{c20}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c20')}" th:errors="*{c20}"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="c20_1" class="form-label">C20:1</label>
+                    <input type="number" class="form-control" id="c20_1" th:field="*{c20_1}" min="0" max="100" step="0.001">
+                    <div class="text-danger small" th:if="${#fields.hasErrors('c20_1')}" th:errors="*{c20_1}"></div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label for="remark" class="form-label">备注</label>
+                <input type="text" class="form-control" id="remark" th:field="*{remark}"
+                       maxlength="200" placeholder="例如：微量、原始资料未给出某项数值">
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('remark')}" th:errors="*{remark}"></div>
+            </div>
+
+            <hr class="my-4">
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-success"
+                        th:text="${mode == 'create' ? '保存记录' : '保存修改'}">保存</button>
+                <a class="btn btn-outline-secondary" th:href="@{/admin/oils}">取消</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>

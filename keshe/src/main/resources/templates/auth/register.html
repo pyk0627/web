@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('注册')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<main class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <div class="auth-icon">🪴</div>
+                        <h1 class="h3 fw-bold mb-2">创建账号</h1>
+                        <p class="text-muted mb-0">注册后可以收藏植物，建立自己的学习清单</p>
+                    </div>
+
+                    <form th:action="@{/register}" th:object="${registerForm}" method="post"
+                          class="needs-validation" novalidate id="registerForm">
+                        <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}">
+                            <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">注册失败</div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="username" class="form-label">用户名 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}"
+                                       placeholder="4~20 位字母、数字或下划线" required minlength="4" maxlength="20"
+                                       pattern="^[A-Za-z0-9_]+$">
+                                <div class="invalid-feedback">用户名需为 4~20 位字母、数字或下划线</div>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('username')}"
+                                     th:errors="*{username}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="displayName" class="form-label">昵称 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="displayName" th:field="*{displayName}"
+                                       placeholder="2~20 个字符" required minlength="2" maxlength="20">
+                                <div class="invalid-feedback">请输入 2~20 个字符的昵称</div>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('displayName')}"
+                                     th:errors="*{displayName}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">邮箱 <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" th:field="*{email}"
+                                       placeholder="name@example.com" required maxlength="100">
+                                <div class="invalid-feedback">请输入正确的邮箱地址</div>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('email')}"
+                                     th:errors="*{email}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">手机号</label>
+                                <input type="tel" class="form-control" id="phone" th:field="*{phone}"
+                                       placeholder="选填，11 位手机号" pattern="^$|^1[3-9]\d{9}$">
+                                <div class="invalid-feedback">请输入正确的手机号</div>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('phone')}"
+                                     th:errors="*{phone}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">密码 <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="password" th:field="*{password}"
+                                       placeholder="6~32 位，包含字母和数字" required minlength="6" maxlength="32"
+                                       pattern="^(?=.*[A-Za-z])(?=.*\d).+$">
+                                <div class="invalid-feedback">密码需为 6~32 位，且同时包含字母和数字</div>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('password')}"
+                                     th:errors="*{password}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="confirmPassword" class="form-label">确认密码 <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="confirmPassword"
+                                       th:field="*{confirmPassword}" placeholder="再次输入密码" required minlength="6">
+                                <div class="invalid-feedback">请再次输入密码</div>
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('confirmPassword')}"
+                                     th:errors="*{confirmPassword}"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" type="checkbox" id="agree" required>
+                            <label class="form-check-label small" for="agree">
+                                我已了解本项目为课程设计，数据仅用于学习与演示
+                            </label>
+                            <div class="invalid-feedback">请确认后继续</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100 mt-4">注册并登录</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <span class="text-muted small">已经有账号？</span>
+                        <a th:href="@{/login}" class="small fw-semibold">去登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>

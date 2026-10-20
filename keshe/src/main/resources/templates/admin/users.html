@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('用户管理')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{admin/fragments :: adminNav('users')}"></div>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<main class="container py-4 py-lg-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <span class="section-kicker">账号与权限</span>
+            <h1 class="h2 fw-bold mb-1">用户管理</h1>
+            <p class="text-muted mb-0">管理员可以调整角色、启用/停用账号或删除用户；系统至少保留一个管理员。</p>
+        </div>
+        <div class="banner-stat">
+            <span>用户总数</span>
+            <strong th:text="${users.size()}">0</strong>
+            <span>人</span>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名 / 昵称</th>
+                    <th>邮箱 / 手机</th>
+                    <th>角色</th>
+                    <th>状态</th>
+                    <th>注册时间</th>
+                    <th class="text-end">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${users}">
+                    <td class="text-muted" th:text="${u.id}">1</td>
+                    <td>
+                        <div class="fw-semibold">
+                            <span th:text="${u.username}">admin</span>
+                            <span class="badge text-bg-warning ms-1" th:if="${currentUser.id == u.id}">当前登录</span>
+                        </div>
+                        <div class="small text-muted" th:text="${u.displayName}">管理员</div>
+                    </td>
+                    <td class="small text-muted">
+                        <div th:text="${u.email ?: '—'}">admin@example.com</div>
+                        <div th:text="${u.phone ?: '—'}">—</div>
+                    </td>
+                    <td>
+                        <span class="badge" th:classappend="${u.admin} ? ' text-bg-danger' : ' text-bg-secondary'"
+                              th:text="${u.roleLabel}">管理员</span>
+                    </td>
+                    <td>
+                        <span class="badge" th:classappend="${u.enabled} ? ' text-bg-success' : ' text-bg-secondary'"
+                              th:text="${u.enabled ? '正常' : '已停用'}">正常</span>
+                    </td>
+                    <td class="small text-muted" th:text="${u.createdDate}">2026-10-20</td>
+                    <td class="text-end text-nowrap">
+                        <form class="d-inline" th:action="@{/admin/users/{id}/role(id=${u.id})}" method="post"
+                              th:if="${currentUser.id != u.id}">
+                            <button class="btn btn-sm btn-outline-success" type="submit"
+                                    th:text="${u.admin ? '设为普通用户' : '设为管理员'}">设为管理员</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/users/{id}/enabled(id=${u.id})}" method="post"
+                              th:if="${currentUser.id != u.id}">
+                            <button class="btn btn-sm btn-outline-secondary" type="submit"
+                                    th:text="${u.enabled ? '停用' : '启用'}">停用</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/users/{id}/delete(id=${u.id})}" method="post"
+                              th:if="${currentUser.id != u.id}"
+                              data-confirm="确定删除该用户吗？其收藏记录也会一并删除。">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">删除</button>
+                        </form>
+                        <span class="small text-muted" th:if="${currentUser.id == u.id}">不可操作自己</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="result-note mt-4">
+        <strong>权限说明：</strong>游客可以查询公开植物知识；普通用户额外拥有收藏功能；管理员拥有作物、含油率记录和用户维护权限。
+    </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>

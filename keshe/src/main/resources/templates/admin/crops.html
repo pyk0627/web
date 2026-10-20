@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('作物维护')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{admin/fragments :: adminNav('crops')}"></div>
+<div th:replace="~{fragments/common :: flash}"></div>
+
+<main class="container py-4 py-lg-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <span class="section-kicker">植物档案</span>
+            <h1 class="h2 fw-bold mb-1">作物维护</h1>
+            <p class="text-muted mb-0">新增、编辑、删除植物基础档案；含油率数据在单独页面维护。</p>
+        </div>
+        <a class="btn btn-success" th:href="@{/admin/crops/new}">＋ 新增作物</a>
+    </div>
+
+    <div class="content-card">
+        <form class="row g-2 mb-3" th:action="@{/admin/crops}" method="get">
+            <div class="col-md-6">
+                <input type="search" class="form-control" name="keyword" th:value="${criteria.keyword}"
+                       placeholder="搜索中文名、拉丁学名、科、属">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-outline-success" type="submit">搜索</button>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-outline-secondary" th:href="@{/admin/crops}">清空</a>
+            </div>
+            <div class="col-auto ms-auto text-muted small align-self-center">
+                共 <strong th:text="${result.total}">0</strong> 条
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>中文名 / 拉丁学名</th>
+                    <th>科属</th>
+                    <th>别名</th>
+                    <th>含油率</th>
+                    <th>更新时间</th>
+                    <th class="text-end">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="crop : ${result.content}">
+                    <td class="text-muted" th:text="${crop.id}">1</td>
+                    <td>
+                        <a class="fw-semibold text-success text-decoration-none"
+                           th:href="@{/crop/{id}(id=${crop.id})}" th:text="${crop.chineseName}">苏铁</a>
+                        <div class="small text-muted fst-italic" th:text="${crop.latinName ?: '—'}">Cycas</div>
+                    </td>
+                    <td class="small" th:text="${crop.familyGenus}">苏铁科 · 苏铁属</td>
+                    <td class="small text-muted" th:text="${crop.alias ?: '—'}">铁树</td>
+                    <td><span class="oil-pill" th:text="${crop.oilSummary}">10%</span></td>
+                    <td class="small text-muted" th:text="${crop.updatedDate != null and !crop.updatedDate.isBlank() ? crop.updatedDate : '—'}">2026-10-20</td>
+                    <td class="text-end text-nowrap">
+                        <a class="btn btn-sm btn-outline-success"
+                           th:href="@{/admin/crops/{id}/edit(id=${crop.id})}">编辑</a>
+                        <a class="btn btn-sm btn-outline-secondary"
+                           th:href="@{/admin/oils(cropId=${crop.id})}">油样</a>
+                        <form class="d-inline" th:action="@{/admin/crops/{id}/delete(id=${crop.id})}" method="post"
+                              data-confirm="确定删除该作物及其全部含油率记录吗？">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">删除</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="empty-inline mt-3" th:if="${result.empty}">没有找到作物，试试清空关键词。</div>
+
+        <nav class="mt-3" th:if="${result.totalPages > 1}">
+            <ul class="pagination pagination-sm justify-content-center mb-0">
+                <li class="page-item" th:classappend="${!result.hasPrevious} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/crops(keyword=${criteria.keyword},page=${result.previousPage})}">上一页</a>
+                </li>
+                <li class="page-item" th:each="p : ${#numbers.sequence(1, result.totalPages)}"
+                    th:classappend="${p == result.page} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/crops(keyword=${criteria.keyword},page=${p})}"
+                       th:text="${p}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${!result.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/crops(keyword=${criteria.keyword},page=${result.nextPage})}">下一页</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<div th:replace="~{fragments/common :: scripts}"></div>
+</body>
+</html>
