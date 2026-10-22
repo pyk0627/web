@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>demo</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">demo</h1>
+</header>
+<h1
+id="非粮生物柴油植物知识查找与匹配系统">非粮生物柴油植物知识查找与匹配系统</h1>
+<p>课程设计项目：把《中国非粮生物柴油植物》中的植物档案、含油率及脂肪酸化学组分整理成结构化数据，
+提供<strong>组合查询、结果字段自选、植物详情、收藏、后台维护</strong>等功能。</p>
+<p>项目采用传统 Java Web
+的“服务端渲染”思路，没有使用前后端分离，页面直接由 Thymeleaf 渲染，
+数据访问保留 JdbcTemplate + 原生 SQL，便于对照课程中的
+JDBC、Servlet/Filter、JavaBean 等技术点。</p>
+<h2 id="一技术栈">一、技术栈</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>层次</th>
+<th>技术</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>后端框架</td>
+<td>Spring Boot 3.5、Spring MVC</td>
+</tr>
+<tr class="even">
+<td>页面模板</td>
+<td>Thymeleaf（服务端渲染）</td>
+</tr>
+<tr class="odd">
+<td>数据访问</td>
+<td>JdbcTemplate + 原生 SQL</td>
+</tr>
+<tr class="even">
+<td>数据库</td>
+<td>MySQL 8.x 或 MariaDB 10.6+</td>
+</tr>
+<tr class="odd">
+<td>登录与权限</td>
+<td>HttpSession + 自定义 Filter + BCrypt 密码哈希</td>
+</tr>
+<tr class="even">
+<td>前端</td>
+<td>HTML5、CSS3、JavaScript、Bootstrap 5（本地静态资源，无需 npm）</td>
+</tr>
+<tr class="odd">
+<td>构建与部署</td>
+<td>Maven、可执行 jar、内置 Tomcat</td>
+</tr>
+<tr class="even">
+<td>JDK</td>
+<td>Java 21</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二功能概览">二、功能概览</h2>
+<h3 id="前台游客可用">前台（游客可用）</h3>
+<ul>
+<li>首页：数据库统计、科属分类导航、含油率示例植物。</li>
+<li>知识查询 <code>/search</code>：关键词 + 科 + 属 + 含油率范围 +
+是否有含油数据 + 排序方式的组合查询。</li>
+<li>结果字段选择：中文名、英文名、拉丁学名、别名、科、属、特征、分布、栽培、用途、含油率可自由勾选。</li>
+<li>分页：每页 5 / 10 / 20 / 50 条。</li>
+<li>植物详情
+<code>/crop/{id}</code>：完整档案、全部含油率记录、同科植物、外部知识链接。</li>
+<li>关于项目 <code>/about</code>：数据来源与技术说明。</li>
+</ul>
+<h3 id="登录用户">登录用户</h3>
+<ul>
+<li>注册 <code>/register</code>、登录 <code>/login</code>、退出
+<code>/logout</code>。</li>
+<li>收藏植物 <code>/favorites</code>，在详情页可收藏 / 取消收藏。</li>
+</ul>
+<h3 id="管理员">管理员</h3>
+<ul>
+<li>后台概览 <code>/admin</code>。</li>
+<li>作物维护
+<code>/admin/crops</code>：新增、编辑、删除、搜索、分页。</li>
+<li>含油率记录维护
+<code>/admin/oils</code>：按作物、产地、采集/测试单位筛选，新增、编辑、删除。</li>
+<li>用户管理
+<code>/admin/users</code>：角色调整、启用/停用、删除；系统会校验“至少保留一个管理员”和“不能操作自己”。</li>
+</ul>
+<h3 id="演示账号">演示账号</h3>
+<table>
+<thead>
+<tr class="header">
+<th>角色</th>
+<th>用户名</th>
+<th>密码</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>管理员</td>
+<td><code>admin</code></td>
+<td><code>admin123</code></td>
+</tr>
+<tr class="even">
+<td>普通用户</td>
+<td><code>user</code></td>
+<td><code>user123</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="三环境准备">三、环境准备</h2>
+<ol type="1">
+<li>安装 JDK 21。</li>
+<li>安装 Maven 3.9+。</li>
+<li>安装 MySQL 8 或 MariaDB 10.6+。</li>
+<li>创建数据库（数据库名默认 <code>crop_knowledge</code>）：</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">DATABASE</span> crop_knowledge <span class="dt">CHARACTER</span> <span class="kw">SET</span> utf8mb4 COLLATE utf8mb4_unicode_ci;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="fu">USER</span> <span class="st">&#39;keshe&#39;</span>@<span class="st">&#39;localhost&#39;</span> <span class="kw">IDENTIFIED</span> <span class="kw">BY</span> <span class="st">&#39;keshe123&#39;</span>;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GRANT</span> <span class="kw">ALL</span> <span class="kw">PRIVILEGES</span> <span class="kw">ON</span> crop_knowledge.<span class="op">*</span> <span class="kw">TO</span> <span class="st">&#39;keshe&#39;</span>@<span class="st">&#39;localhost&#39;</span>;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FLUSH</span> <span class="kw">PRIVILEGES</span>;</span></code></pre></div>
+<blockquote>
+<p>表结构和演示数据由程序自动初始化： <code>db/schema.sql</code>
+每次启动执行 <code>CREATE TABLE IF NOT EXISTS</code>；
+<code>data.sql</code> 只在 <code>crop</code>
+表为空时导入，避免管理员修改数据后重启被覆盖。</p>
+</blockquote>
+<h2 id="四配置数据库连接">四、配置数据库连接</h2>
+<p>默认配置在
+<code>src/main/resources/application.yml</code>，也可以通过环境变量覆盖：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>环境变量</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DB_URL</code></td>
+<td><code>jdbc:mysql://localhost:3306/crop_knowledge?...</code></td>
+<td>JDBC 连接地址</td>
+</tr>
+<tr class="even">
+<td><code>DB_USERNAME</code></td>
+<td><code>root</code></td>
+<td>数据库用户名</td>
+</tr>
+<tr class="odd">
+<td><code>DB_PASSWORD</code></td>
+<td>空</td>
+<td>数据库密码</td>
+</tr>
+<tr class="even">
+<td><code>SERVER_PORT</code></td>
+<td><code>8080</code></td>
+<td>服务端口</td>
+</tr>
+</tbody>
+</table>
+<p>使用 MariaDB 时把地址改为：</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">DB_URL</span><span class="op">=</span><span class="st">&#39;jdbc:mariadb://localhost:3306/crop_knowledge?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&#39;</span></span></code></pre></div>
+<h2 id="五启动与打包">五、启动与打包</h2>
+<h3 id="开发模式启动">开发模式启动</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mvn</span> spring-boot:run</span></code></pre></div>
+<p>带数据库环境变量启动：</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">DB_URL</span><span class="op">=</span><span class="st">&#39;jdbc:mariadb://localhost:3306/crop_knowledge?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&#39;</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">DB_USERNAME</span><span class="op">=</span>keshe <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">DB_PASSWORD</span><span class="op">=</span>keshe123 <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">mvn</span> spring-boot:run</span></code></pre></div>
+<p>浏览器访问 <a href="http://localhost:8080"
+class="uri">http://localhost:8080</a>。</p>
+<h3 id="打包为可执行-jar">打包为可执行 jar</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mvn</span> clean package</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> target/crop-knowledge-1.0.0.jar</span></code></pre></div>
+<p>也可以把数据库参数写在启动命令前：</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">DB_USERNAME</span><span class="op">=</span>keshe <span class="va">DB_PASSWORD</span><span class="op">=</span>keshe123 <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> target/crop-knowledge-1.0.0.jar</span></code></pre></div>
+<h3 id="运行测试">运行测试</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mvn</span> test</span></code></pre></div>
+<h2 id="六数据库设计">六、数据库设计</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>表</th>
+<th>说明</th>
+<th>关键字段</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>app_user</code></td>
+<td>系统用户</td>
+<td><code>username</code>、<code>password_hash</code>、<code>role</code>、<code>enabled</code></td>
+</tr>
+<tr class="even">
+<td><code>crop</code></td>
+<td>植物档案</td>
+<td><code>chinese_name</code>、<code>latin_name</code>、<code>family</code>、<code>genus</code>、特征/分布/栽培/用途、图片、参考资料</td>
+</tr>
+<tr class="odd">
+<td><code>oil_record</code></td>
+<td>含油率及化学组分</td>
+<td><code>crop_id</code>、采集/测试单位、部位、产地、含油率、碘值、酸值、皂化值、C12~C20:1、备注</td>
+</tr>
+<tr class="even">
+<td><code>favorite</code></td>
+<td>用户收藏</td>
+<td><code>user_id</code> + <code>crop_id</code> 联合主键</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>oil_record.crop_id</code> 外键关联
+<code>crop(id)</code>，删除作物时级联删除含油率记录。</li>
+<li><code>favorite</code> 同时级联关联用户和作物。</li>
+<li>角色使用 <code>ADMIN</code> / <code>USER</code>；密码使用 BCrypt
+哈希，不保存明文。</li>
+</ul>
+<p>完整建表语句见
+<code>src/main/resources/db/schema.sql</code>，演示数据见
+<code>src/main/resources/data.sql</code>。</p>
+<h2 id="七项目结构">七、项目结构</h2>
+<pre class="text"><code>src/main/java/com/keshe/crop
+├── config          # BCrypt 配置、首次启动演示数据初始化
+├── controller      # 页面控制器：首页、查询、详情、登录、后台
+├── filter          # AuthFilter：登录校验与管理员权限校验
+├── model           # JavaBean、表单对象、分页对象、枚举
+├── repository      # JdbcTemplate 数据访问层
+└── service         # 业务层
+
+src/main/resources
+├── application.yml
+├── db/schema.sql              # 建表脚本
+├── data.sql                   # 演示数据（33 种植物、60 条含油率记录）
+├── static                     # Bootstrap、自定义 CSS/JS、植物 SVG 图片
+└── templates                  # Thymeleaf 页面
+    ├── admin/                 # 后台页面
+    ├── auth/                  # 登录、注册
+    ├── crop/                  # 植物详情
+    ├── error/                 # 403/404/500
+    └── fragments/             # 公共导航、页脚、消息提示</code></pre>
+<h2 id="八评分点对应">八、评分点对应</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>评分点</th>
+<th>实现位置</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>前端页面</td>
+<td><code>templates/</code>、<code>static/css/app.css</code>、Bootstrap
+5 响应式布局</td>
+</tr>
+<tr class="even">
+<td>表单验证</td>
+<td>HTML5 属性 + <code>static/js/app.js</code> + Jakarta Validation
+注解</td>
+</tr>
+<tr class="odd">
+<td>Java Web 业务</td>
+<td>Spring MVC、JavaBean、<code>AuthFilter</code>、JdbcTemplate</td>
+</tr>
+<tr class="even">
+<td>数据库设计</td>
+<td><code>db/schema.sql</code> 四张表、主外键、唯一约束、CHECK 约束</td>
+</tr>
+<tr class="odd">
+<td>特定功能</td>
+<td>组合查询、结果字段自选、分页、详情、收藏、后台 CRUD</td>
+</tr>
+<tr class="even">
+<td>权限控制</td>
+<td>Session 登录态 + Filter 拦截 <code>/admin/**</code> 与
+<code>/favorites</code></td>
+</tr>
+<tr class="odd">
+<td>部署</td>
+<td>Maven 打包可执行 jar，内置 Tomcat</td>
+</tr>
+</tbody>
+</table>
+<h2 id="九常见问题">九、常见问题</h2>
+<p><strong>1. 启动时报“Access denied for user”</strong></p>
+<p>检查 <code>DB_USERNAME</code>、<code>DB_PASSWORD</code>
+是否正确，或使用 <code>application.yml</code>
+中的默认值连接本地数据库。</p>
+<p><strong>2. 启动时报“Unknown database ‘crop_knowledge’”</strong></p>
+<p>先执行第三节中的 <code>CREATE DATABASE</code> 语句。</p>
+<p><strong>3. 演示账号登录失败</strong></p>
+<p><code>data.sql</code>
+只在作物表为空时导入。如果之前手动改过用户表，可以删除数据库后重新启动，
+或用 BCrypt 重新生成密码哈希后更新 <code>app_user</code>。</p>
+<p><strong>4. 中文显示乱码</strong></p>
+<p>确认数据库使用 <code>utf8mb4</code>，JDBC URL 中带
+<code>characterEncoding=UTF-8</code>。</p>
+<p><strong>5. 图片显示为占位图</strong></p>
+<p>课程资料 PDF 中没有单独的植物图片，项目使用生成的 SVG 占位图。
+管理员可以在“作物维护 → 编辑”中把图片地址改成实际图片链接。</p>
+</body>
+</html>

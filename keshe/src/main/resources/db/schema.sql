@@ -1,25 +1,45 @@
--- ============================================================
--- 非粮生物柴油植物知识库 数据库结构
--- 适用：MySQL 8.x / MariaDB 10.6+
--- ============================================================
-
+-- app_user用来存系统用户账号
 CREATE TABLE IF NOT EXISTS app_user (
+
+-- BIGINT表示64位整数，NOT NULL表示这一列不能为空，插入时必须有值
+-- AUTO_INCREMENT，自增，不填值时，系统自动分配下一个编号
     id            BIGINT       NOT NULL AUTO_INCREMENT,
+
+-- VARCHAR(50)表示可变长字符串，最多50个字符    
     username      VARCHAR(50)  NOT NULL,
+    
     password_hash VARCHAR(100) NOT NULL,
+
+-- username是登录唯一表示账号（不可重复），display_name是昵称（可重复）
     display_name  VARCHAR(50)  NOT NULL,
+    
     email         VARCHAR(100) NOT NULL,
     phone         VARCHAR(20)  NULL,
     role          VARCHAR(20)  NOT NULL DEFAULT 'USER',
+
+-- enabled表示用户状态 TINYINT(1)表示启用，0表示停用
     enabled       TINYINT(1)   NOT NULL DEFAULT 1,
+
+-- created_at表示创建时间，默认为数据库的当前时间
     created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
     PRIMARY KEY (id),
+
+-- UNIQUE KEY 表示唯一索引，值不能重复，KEY表示普通索引，只是加速查询
+-- 索引名字：uk_user_username
+-- 索引建在username列上
     UNIQUE KEY uk_user_username (username),
+    
     UNIQUE KEY uk_user_email (email),
     KEY idx_user_role (role)
+
+-- 存储引擎：InnoDB  默认字符集：utf8mb4  
+-- 排序规则：按Unicode规则排序，ci:对大小写不敏感
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 建立表用来存植物档案
 CREATE TABLE IF NOT EXISTS crop (
+
     id              BIGINT       NOT NULL AUTO_INCREMENT,
     chinese_name    VARCHAR(100) NOT NULL,
     english_name    VARCHAR(150) NULL,
