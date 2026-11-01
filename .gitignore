@@ -1,0 +1,8 @@
+
+# Eclipse workspace 缓存（不提交）
+eclipse-workspace/.metadata/
+eclipse-workspace/Servers/
+eclipse-workspace/**/target/
+eclipse-workspace/**/bin/
+eclipse-workspace/**/build/
+eclipse-workspace/**/.gradle/
