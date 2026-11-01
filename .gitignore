@@ -6,3 +6,8 @@ eclipse-workspace/**/target/
 eclipse-workspace/**/bin/
 eclipse-workspace/**/build/
 eclipse-workspace/**/.gradle/
+
+# 根目录 keshe 的 Eclipse 元数据
+/keshe/.classpath
+/keshe/.project
+/keshe/.settings/
