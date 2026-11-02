@@ -1,4 +1,3 @@
-
 # Eclipse workspace 缓存（不提交）
 eclipse-workspace/.metadata/
 eclipse-workspace/Servers/
@@ -11,3 +10,18 @@ eclipse-workspace/**/.gradle/
 /keshe/.classpath
 /keshe/.project
 /keshe/.settings/
+
+# 全局 Eclipse/构建工具缓存
+**/.classpath
+**/.project
+**/.settings/
+**/target/
+**/bin/
+**/.gradle/
+**/.factorypath
+**/.lock
+**/.lock_info
+
+# OS
+.DS_Store
+Thumbs.db
